@@ -14,11 +14,11 @@ public class Puzzle {
     private boolean behavior;
     private String question;
     private String answer;
-    private String difficultyLevel;
+    private DifficultyLevel difficultyLevel;
     private final Set<StatisticItem> statisticItemSet;
 
     public Puzzle(int id, boolean behavior, String question, String answer,
-                  String difficultyLevel) {
+                  DifficultyLevel difficultyLevel) {
         this.id = id;
         this.behavior = behavior;
         this.question = question;
@@ -59,11 +59,11 @@ public class Puzzle {
         this.answer = answer;
     }
 
-    public String getDifficultyLevel() {
+    public DifficultyLevel getDifficultyLevel() {
         return difficultyLevel;
     }
 
-    public void setDifficultyLevel(String difficultyLevel) {
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
     }
 
@@ -103,7 +103,7 @@ public class Puzzle {
                 puzzle.isBehavior(),
                 puzzle.getQuestion(),
                 puzzle.getAnswer(),
-                   "1"/*puzzle.getDifficultyLevel()*/
+                   null/*puzzle.getDifficultyLevel()*/
                 );
             Set<classesFromXSD.StatisticItem> statisticItemSet = new HashSet<>();
             statisticItemSet.addAll((Collection)puzzle.getPuzzleStatistic());

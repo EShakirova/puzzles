@@ -16,7 +16,7 @@ public class PuzzleWithStatistic extends Puzzle {
                                String answer,
                                String difficultyLevel,
                                int statisticCount) {
-        super(id, behavior, question, answer, difficultyLevel);
+        super(id, behavior, question, answer, null);
         this.statisticCount = statisticCount;
     }
 
@@ -36,7 +36,7 @@ public class PuzzleWithStatistic extends Puzzle {
                                short unsuccessfulAttemptsCount,
                                long elapsedTime,
                                boolean isSolved) {
-        super(id, behavior, question, answer, difficultyLevel);
+        super(id, behavior, question, answer, null);
         this.unsuccessfulAttemptsCount = unsuccessfulAttemptsCount;
         this.elapsedTime = elapsedTime;
         this.isSolved = isSolved;

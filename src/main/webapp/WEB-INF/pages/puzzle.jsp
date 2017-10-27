@@ -14,42 +14,44 @@
 </head>
 <body>
 
-<table style="margin: 0 auto;">
-    <form id="myForm" method="post" action="/puzzles/puzzleEdit" onsubmit="return validate()" onclick="return validate()">
+<table  style="margin: 0 auto;">
+    <form id="myForm" method="post" action="/puzzles/editPuzzle">
         <tr>
             <td align="right"><label>ID</label></td>
             <td  width="80%"><label><c:out value="${puzzle.id}"></c:out></label></td>
         </tr>
         <tr>
             <td align="right"><label>Уровень сложности</label></td>
-            <td width="80%"><select size="2" multiple name="difficultyLevel">
-                <option value='<c:out value="${puzzle.difficultyLevel}"></c:out>'/>
-            </select>
+            <td width="80%">
+                <select name="difficultyLevel[]">
+                    <c:forEach var="item" items="${diflevels}">
+                        <option>${item.name}</option>
+                        <%--<option selected value="${puzzle.difficultyLevel.name}">${puzzle.difficultyLevel.name}</option>
+                   --%> </c:forEach>
+                </select>
             </td>
         </tr>
         <tr>
             <td align="right"><label>Тип вопроса</label></td>
-            <td width="80%"><select size="2" multiple name="behavior">
-                <option value='<c:out value="${puzzle.behavior}"></c:out>'/>
+            <td width="80%"><select  name="behavior[]">
+                <option selected value="${puzzle.behavior}">${puzzle.behavior}</option>
+                <option>${!puzzle.behavior}</option>
             </select>
             </td>
         </tr>
         <tr>
             <td align="right"><label>Текст вопроса</label></td>
-            <td width="80%"><textarea name="question" rows="5" cols="40">
-                                <c:out value="${puzzle.question}"></c:out>
-                            </textarea>
+            <td width="80%"><textarea name="question" rows="5" cols="80" maxlength="200">${puzzle.question}</textarea>
             </td>
         </tr>
         <tr>
-            <td align="right"><label>Ответ</label></td>
-            <td width="80%"><input type="text" name="answer"
-                                   value='<c:out value="${puzzle.answer}"></c:out>'/>
+            <td align="right"><label>Ответы</label></td>
+            <td width="80%"><input type="text" name="answer"/>
             </td>
         </tr>
         <tr>
             <td align="right"><label></label></td>
-            <td><input type="submit" name="save" onsubmit="return validate()" onclick="return validate()" value="ok"></td>
+            <td><input type="submit" name="save"  value="Сохранить"></td>
         </tr>
     </form>
 </table>

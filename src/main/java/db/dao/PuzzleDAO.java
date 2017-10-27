@@ -4,10 +4,7 @@ import db.ConnectionManagerPostgresSQL;
 import db.IConnectionManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pojo.Puzzle;
-import pojo.PuzzleWithStatistic;
-import pojo.StatisticItem;
-import pojo.User;
+import pojo.*;
 import services.backupDB.DBConnectionPool;
 
 import java.sql.*;
@@ -47,10 +44,14 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
                         resultSet.getBoolean("behavior"),
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
-                        resultSet.getString("dlevel"),
+                        null,
                         resultSet.getShort("attempts_count"),
                         resultSet.getLong("elasped_time"),
                         resultSet.getBoolean("is_solved"));
+                DifficultyLevel difficultyLevel = new DifficultyLevel(
+                        resultSet.getInt("did"),
+                        resultSet.getString("dname"));
+                puzzle.setDifficultyLevel(difficultyLevel);
             }
         } catch (SQLException e) {
             log.info(e);
@@ -75,8 +76,12 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
                         resultSet.getBoolean("behavior"),
                         resultSet.getString("question"),
                         "",
-                        resultSet.getString("dlevel"),
+                        null,
                         resultSet.getInt("cntStatistics"));
+                DifficultyLevel difficultyLevel = new DifficultyLevel(
+                        resultSet.getInt("did"),
+                        resultSet.getString("dname"));
+                puzzle.setDifficultyLevel(difficultyLevel);
                 puzzleList.add(puzzle);
             }
         } catch (SQLException e) {
@@ -103,7 +108,7 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
                         resultSet.getBoolean("behavior"),
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
-                        resultSet.getString("dlevel"));
+                        null);
                 puzzleList.add(puzzle);
             }
         } catch (SQLException e) {
@@ -127,8 +132,13 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
             puzzle = new Puzzle(resultSet.getInt("id"),
                                 resultSet.getBoolean("behavior"),
                                 resultSet.getString("question"),
-                                resultSet.getString("answer"),
-                                resultSet.getString("dlevel"));
+                                "",
+                                null);
+            DifficultyLevel difficultyLevel = new DifficultyLevel(
+                    resultSet.getInt("did"),
+                    resultSet.getString("dname"));
+            puzzle.setDifficultyLevel(difficultyLevel);
+
         } catch (SQLException e) {
             log.error(e);
             throw new PuzzleDAOException();
@@ -147,8 +157,7 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
             PreparedStatement preparedStatement = connection.prepareStatement(PUZZLE_INSERT, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setBoolean(1, puzzle.isBehavior());
             preparedStatement.setString(2, puzzle.getQuestion());
-            preparedStatement.setString(3, puzzle.getAnswer());
-            preparedStatement.setString(4, puzzle.getDifficultyLevel());
+            preparedStatement.setInt(3, puzzle.getDifficultyLevel().getId());
             if (preparedStatement.executeUpdate() == 1) {
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()) {
@@ -164,25 +173,6 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
         return result;
     }
 
-    /*  public static void insertAll(List<Puzzle> puzzleList) {
-          try {
-              PreparedStatement preparedStatement = manager.getConnection().prepareStatement(
-                      "insert into puzzle (behavior, question, answer, dlevel)" +
-                              "values(?,?,?,?)");
-              for (Puzzle puzzle : puzzleList) {
-                  preparedStatement.setBoolean(1, puzzle.isBehavior());
-                  preparedStatement.setString(2, puzzle.getQuestion());
-                  preparedStatement.setString(3, puzzle.getAnswer());
-                  preparedStatement.setByte(4, puzzle.getDifficultyLevel());
-                  preparedStatement.addBatch();
-              }
-              preparedStatement.executeBatch();
-
-          } catch (SQLException e) {
-              e.printStackTrace();
-          }
-      }
-  */
     public void update(Puzzle puzzle) throws PuzzleDAOException {
         //int result = 0;
         Connection connection = null;
@@ -190,9 +180,8 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
             PreparedStatement preparedStatement = connection.prepareStatement(PUZZLE_UPDATE);
             preparedStatement.setBoolean(1, puzzle.isBehavior());
             preparedStatement.setString(2, puzzle.getQuestion());
-            preparedStatement.setString(3, puzzle.getAnswer());
-            preparedStatement.setString(4, puzzle.getDifficultyLevel());
-            preparedStatement.setInt(5, puzzle.getId());
+            preparedStatement.setInt(3, puzzle.getDifficultyLevel().getId());
+            preparedStatement.setInt(4, puzzle.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.error(e);
@@ -211,6 +200,8 @@ public class PuzzleDAO implements ICommonDAO<Puzzle> {
             log.error(e);
             throw new PuzzleDAOException();
         }
-        connectionPool.closeConnection(connection);
+        finally {
+            connectionPool.closeConnection(connection);
+        }
     }
 }

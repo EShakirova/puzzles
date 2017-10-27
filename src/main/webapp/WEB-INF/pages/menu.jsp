@@ -16,8 +16,8 @@
 <table width="50%" style="margin: 0 auto;">
     <tr>
 <c:forEach  items="${menu}" var="item">
-    <td><a methods="get" href="puzzles/".<c:out value="${item.ahref}"></c:out> >
-        <c:out value="${item.itemName}"></c:out> </a></td>
+    <td><a methods="get" href="/puzzles${item.ahref}">
+        ${item.itemName}</a></td>
 </c:forEach>
     <td width="10%">Выход</td></tr>
 </table>

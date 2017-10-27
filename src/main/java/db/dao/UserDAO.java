@@ -42,7 +42,7 @@ public class UserDAO implements IUserDAO, ICommonDAO<User> {
                         resultSet.getString("login"),
                         resultSet.getString("email"),
                         "",
-                        resultSet.getBoolean("isadmin"));
+                        resultSet.getBoolean("is_admin"));
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -69,12 +69,15 @@ public class UserDAO implements IUserDAO, ICommonDAO<User> {
                     resultSet.getString("last_name"),
                     resultSet.getString("login"),
                     resultSet.getString("email"),
-                    "");
+                    "",
+                    resultSet.getBoolean("is_admin"));
         } catch (SQLException e) {
             log.error(e);
             throw new UserDAOException();
         }
-        connectionPool.closeConnection(connection);
+        finally {
+            connectionPool.closeConnection(connection);
+        }
         return user;
     }
 
@@ -137,7 +140,9 @@ public class UserDAO implements IUserDAO, ICommonDAO<User> {
             log.error(e);
             throw new UserDAOException();
         }
-        connectionPool.closeConnection(connection);
+        finally {
+            connectionPool.closeConnection(connection);
+        }
         return user;
     }
  /*   public static void insertAll(List<User> userList) {
@@ -170,7 +175,8 @@ public class UserDAO implements IUserDAO, ICommonDAO<User> {
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getLogin());
             preparedStatement.setString(4, user.getEmailaddress());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setBoolean(5, user.isAdmin());
+            preparedStatement.setInt(6, user.getId());
            /* int result =*/ preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.error(e);

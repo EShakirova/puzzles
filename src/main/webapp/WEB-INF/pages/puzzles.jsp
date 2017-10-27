@@ -16,27 +16,24 @@
 
     <table width="60%" align="center" style="margin: 0 auto;">
         <tr>
-            <th bgcolor="#696969">ID</th>
-            <th bgcolor="#696969">Вопрос</th>
-            <th bgcolor="#696969">Уровень сложности</th>
-            <th bgcolor="#696969">Кол-во ответов пользователей</th>
-            <th bgcolor="#696969"></th>
-            <th bgcolor="#696969"></th>
+            <th bgcolor="#a9a9a9">ID</th>
+            <th bgcolor="#a9a9a9">Вопрос</th>
+            <th bgcolor="#a9a9a9">Уровень сложности</th>
+            <th bgcolor="#a9a9a9">Кол-во ответов пользователей</th>
+            <th bgcolor="#a9a9a9"></th>
+            <th bgcolor="#a9a9a9"></th>
         </tr>
         <c:forEach  items="${puzzles}" var="item">
             <tr>
                 <td width="10%" align="center" > <c:out value="${item.id}"></c:out></td>
                 <td width="50%" align="left">    <c:out value="${item.question}"></c:out> </td>
-                <td width="10%" align="center"> <c:out value="${item.difficultyLevel}"></c:out> </td>
+                <td width="10%" align="center"> <c:out value="${item.difficultyLevel.name}"></c:out> </td>
                 <td width="10%" align="center"> <c:out value="${item.statisticCount}"></c:out> </td>
 
-                     <form id="myFormEdit" method="get" action="/puzzles/puzzleEdit">
+                     <form id="myFormEdit" method="get" action="/puzzles/puzzle">
                         <input type="hidden" name="puzzleID" value = '<c:out  value="${item.id}"></c:out>'/>
                         <%--<input type="submit" name="puzzleID" value="Edit"/>--%>
                     </form>
-
-
-
                     <form id="myFormDelete" method="get" action="/puzzles/puzzleDelete">
                         <input type="hidden" name="puzzleID" value = '<c:out  value="${item.id}"></c:out>'/>
                         <!--<input type="submit" name="puzzleID" value="Delete"/>-->

@@ -2,7 +2,6 @@ package pojo;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class Menu {
     private String itemName;
     private String ahref;

@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Регистрация</title>
@@ -79,23 +81,35 @@
     }
 </script>
 
+<c:if test="${empty user}"><h1>Регистрация</h1></c:if>
+<c:if test="${not empty user}"><h1>Редактирование</h1></c:if>
+
 <table style="margin: 0 auto;">
-    <form id="myForm" method="get" action="/puzzles/registration" onsubmit="return validate()" onclick="return validate()">
+    <form id="myForm"
+          <c:if test="${empty user}">action="/puzzles/registration"</c:if>
+          <c:if test="${not empty user}">action="/puzzles/saveUser"</c:if>
+          <c:if test="${empty user}">method="get" </c:if>
+          <c:if test="${not empty user}">method="post" </c:if>
+          onsubmit="return validate()" onclick="return validate()">
         <tr>
             <td align="right"><label>Имя*</label></td>
-            <td  width="80%"><input type="text" name="firstName"/></td>
+            <td  width="80%"><input type="text" name="firstName"
+                                    value='<c:if test="${not empty user}">${user.firstName}</c:if>'/></td>
         </tr>
         <tr>
             <td align="right"><label>Фамилия</label></td>
-            <td width="80%"><input type="text" name="lastName"/></td>
+            <td width="80%"><input type="text" name="lastName"
+                                   value='<c:if test="${not empty user}">${user.lastName}</c:if>'/></td>
         </tr>
         <tr>
             <td align="right"><label>Логин*</label></td>
-            <td width="80%"><input type="text" name="login"/></td>
+            <td width="80%"><input type="text" name="login"
+                                   value='<c:if test="${not empty user}">${user.login}</c:if>'/></td>
         </tr>
         <tr>
             <td align="right"><label>Адрес*</label></td>
-            <td width="80%"><input type="text" name="email"/></td>
+            <td width="80%"><input type="text" name="email"
+                                   value='<c:if test="${not empty user}">${user.emailaddress}</c:if>'/></td>
         </tr>
         <tr>
             <td align="right"><label>Пароль*</label></td>
@@ -105,10 +119,22 @@
             <td align="right"><label>Пароль еще раз*</label></td>
             <td width="80%"><input type="password" name="password2"/></td>
         </tr>
+        <tr><c:if test="${not empty user}">
+                <td align="right">Роль</td>
+                <td>
+                    <input type="hidden" name="id" value="${user.id}"/>
+                    <input type="radio" name="isAdmin" value="true"
+                        <c:if test="${user.isAdmin()}">checked="checked"</c:if>/>Администратор
+                    <input type="radio" name="isAdmin" value="false"
+                        <c:if test="${!user.isAdmin()}">checked="checked"</c:if>/>Пользователь
+                </td>
+            </c:if>
+        </tr>
         <tr>
             <td align="right"><label></label></td>
-            <td><input type="submit" name="newUser" onsubmit="return validate()" onclick="return validate()" value="ok"></td>
+            <td><input type="submit" name="newUser" onsubmit="return validate()" onclick="return validate()" value="Сохранить"></td>
         </tr>
+
     </form>
 </table>
 </body>

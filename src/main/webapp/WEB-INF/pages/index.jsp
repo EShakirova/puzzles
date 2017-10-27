@@ -60,7 +60,7 @@
 
 <table style="margin: 0 auto;">
 
-    <form id="myForm" method="post" action="/puzzles/auth" onsubmit="return validate()">
+    <form id="myForm" method="post" action="/puzzles/login" onsubmit="return validate()">
         <tr><td></td>
             <td>
             </td>
@@ -79,15 +79,12 @@
             <td></td>
             <td><input type="submit" onclick="return validate()" value="login"/></td>
         </tr>
-
     </form>
-<tr>
-    <td>
-        <form id="myFormReg" method="post" action="/puzzles/registration">
-            <input type="submit"  value="registration"/>
-        </form>
-    </td>
-</tr>
+    <tr><td></td>
+        <td>
+            <a href="/puzzles/registrationForm">Регистрация</a>
+        </td>
+    </tr>
 
 </table>
 </body>

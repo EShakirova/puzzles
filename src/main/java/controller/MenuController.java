@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@SessionAttributes("isAdmin")
+//@SessionAttributes("isAdmin")
 public class MenuController {
 
     private static final Logger log = Logger.getLogger(LoginServlet.class);
@@ -27,11 +27,11 @@ public class MenuController {
     }
 
     @RequestMapping(value = "menu", method = RequestMethod.GET)
-    public ModelAndView showMenu(@ModelAttribute("isAdmin") Boolean isAdmin){
+    public ModelAndView showMenu(/*@ModelAttribute("isAdmin") Boolean isAdmin*/){
         List<Menu> menuList = new ArrayList<>();
         ModelAndView modelAndView = new ModelAndView("menu");
         try {
-            menuList.addAll(menuDAO.getAllByUser(isAdmin));
+            menuList.addAll(menuDAO.getAllByUser(/*isAdmin*/true));
             modelAndView.addObject("menu", menuList);
         } catch (MenuDAO.MenuDAOException e) {
             log.info(e);

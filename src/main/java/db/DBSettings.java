@@ -5,24 +5,28 @@ public class DBSettings {
     public static final String DB_LOGIN = "postgres";
     public static final String DB_PASS = "";
 
-    public static final String PUZZLE_GET_ALL = "select distinct pz.id as pid, pz.behavior, pz.question, pz.answer, pz.dlevel " +
-            " from puzzle pz " +
+    public static final String PUZZLE_GET_ALL = "select distinct pz.id as pid, pz.behavior, pz.question, pz.dlevel " +
+            " from tbl_puzzle pz " +
             " order by pz.behavior";
-    public static final String PUZZLE_GET_ALL_WITH_STAT = "select tp.id, tp.question, tp.behavior, td.name as dlevel, coalesce(t.cnt, 0) as cntStatistics " +
+    public static final String PUZZLE_GET_ALL_WITH_STAT = "select tp.id, tp.question, tp.behavior, td.id as did, td.name as dname, coalesce(t.cnt, 0) as cntStatistics " +
                                                              "from tbl_puzzle tp " +
                                                              "inner join tbl_diflevel td on td.id = tp.id_diflevel " +
                                                              "left join (select count(id) as cnt, id_puzzle " +
                                                              "          from tbl_statistic " +
                                                              "          group by id_puzzle) as t on t.id_puzzle = tp.id ";
 
-    public static final String PUZZLE_GET_BY_ID = "select id, behavior, question, answer, dlevel from puzzle where id = ?";
-    public static final String PUZZLE_INSERT = "insert into puzzle (behavior, question, answer, dlevel) values(?,?,?,?)";
-    public static final String PUZZLE_UPDATE = "update puzzle set behavior = ? ,question =  ? , answer = ? , dlevel = ? where id = ?";
-    public static final String PUZZLE_DELETE = "delete from puzzle where id  = ?";
-    public static final String PZZLE_GET_ALL_WITH_STAT_BY_USER = "select  p.id as pid, p.behavior, p.question, p.answer, p.dlevel, "+
+    public static final String PUZZLE_GET_BY_ID = "select p.id , p.behavior, p.question, d.id as did, d.name as dname   " +
+                                                    " from tbl_puzzle p " +
+                                                    " inner join tbl_diflevel d on d.id = p.id_diflevel "+
+                                                    " where p.id = ? ";
+    public static final String PUZZLE_INSERT = "insert into tbl_puzzle (behavior, question, id_diflevel) values(?,?,?)";
+    public static final String PUZZLE_UPDATE = "update tbl_puzzle set behavior = ? ,question =  ? , id_diflevel = ? where id = ?";
+    public static final String PUZZLE_DELETE = "delete from tbl_puzzle where id  = ?";
+    public static final String PZZLE_GET_ALL_WITH_STAT_BY_USER = "select  p.id as pid, p.behavior, p.question, p.answer, d.id as did, d.name as dname , "+
                                                                  "  si.id as sid, si.elasped_time, si.attempts_count, si.is_solved "+
-                                                                 "   from puzzle p "+
-                                                                 "       left join statistic_item si on "+
+                                                                 "   from tbl_puzzle p "+
+                                                                 "      inner join tbl_diflevel d on p.id_diflevel = d.id "+
+                                                                 "       left join tbl_statistic si on "+
                                                                  "               p.id = si.id_puzzle and si.id_user = ? ";
 
     public static final String USER_GET_ALL = "select * from tbl_user order by first_name ";
@@ -31,7 +35,7 @@ public class DBSettings {
 
     public static final String USER_INSERT = "insert into tbl_user (first_name, last_name, login, email, password) values(?,?,?,?,?)";
     public static final String USER_UPDATE = "update tbl_user set first_name = ?, last_name = ?, login = ?, "+
-                                                                        " email = ? where id = ?";
+                                                                " email = ?, is_admin = ? where id = ?";
     public static final String USER_DELETE = "delete from tbl_user where id  = ? ";
     public static final String USER_GET_NOT_STATISTIC = "select * from tbl_user "+
                                                                 " where id not in (select id_user from statistic_item)" +
@@ -46,5 +50,8 @@ public class DBSettings {
     public static final String STATISTICITEM_GET_BY_PUZZLE = "select * from statistic_item where id_puzzle = ?";
 
     public static final String MENU_GET_ALL_BY_USER = "select * from tbl_menu where is_admin = ?";
+
+    public static final String DIFFICULTYLEVEL_GET_ALL = "select * from tbl_diflevel";
+    public static final String DIFFICULTYLEVEL_GET_BY_ID = "select * from tbl_diflevel where id = ?";
 
 }
