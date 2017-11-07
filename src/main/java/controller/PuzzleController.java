@@ -39,7 +39,7 @@ public class PuzzleController {
     public ModelAndView getPuzzle(@RequestParam("puzzleID") Integer puzzleID) {
         ModelAndView modelAndView = new ModelAndView("puzzle");
         try {
-            Puzzle puzzle = puzzleDAO.getByID(puzzleID);
+            Puzzle puzzle = puzzleDAO.getById(puzzleID);
             List<DifficultyLevel> diflevels = new ArrayList<>();
             diflevels.addAll(difficultyLevelDAO.getAll());
             modelAndView.addObject("diflevels", diflevels);
@@ -47,10 +47,6 @@ public class PuzzleController {
         } catch (PuzzleDAO.PuzzleDAOException e) {
             modelAndView.setViewName("error");
             modelAndView.addObject("message", "Puzzle not found");
-            log.info(e);
-        } catch (DifficultyLevelDAO.DifficultyLevelDAOException e) {
-            modelAndView.setViewName("error");
-            modelAndView.addObject("message", "DifficultLevels list is empty");
             log.info(e);
         }
         return modelAndView;
@@ -66,7 +62,7 @@ public class PuzzleController {
         DifficultyLevel difficultyLevel = null;
         Puzzle puzzle = null;
         try {
-            difficultyLevel = difficultyLevelDAO.getByID(dlevel);
+            difficultyLevel = difficultyLevelDAO.getById(dlevel);
             puzzle = new Puzzle(puzzleID, behavior, question, difficultyLevel, null);
             modelAndView.setViewName("puzzle");
             modelAndView.addObject("puzzle", puzzle);

@@ -1,9 +1,7 @@
 package db.dao;
 
-import db.ConnectionManagerPostgresSQL;
-import db.IConnectionManager;
-import dto.StatisticItemDTO;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Component;
 import pojo.Puzzle;
 import pojo.StatisticItem;
 import pojo.User;
-import services.backupDB.DBConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,94 +52,34 @@ public class StatisticItemDAO {
     public StatisticItem getById(int id){
         Session session = factory.openSession();
         StatisticItem statisticItem =(StatisticItem)session.get(StatisticItem.class,id);
+        session.close();
         return statisticItem;
     }
 
-    public  List<StatisticItem> getAll() throws StatisticItemDAOException {
+    public List<StatisticItem> getAll(){
         List<StatisticItem> statisticItemList = new ArrayList<>();
-        Connection connection = null;
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(STATISTICITEM_GET_ALL);
-           //JOIN
-            while (resultSet.next()) {
-               /* Puzzle puzzle = PuzzleDAO.getByID(resultSet.getInt("id_puzzle"));
-                User user = UserDAO.getByID(resultSet.getInt("id_user"));
-
-                StatisticItem statisticItem = new StatisticItem(
-                        resultSet.getInt("id"),
-                        puzzle,
-                        resultSet.getShort("attempts_count"),
-                        resultSet.getLong("elasped_time"),
-                        resultSet.getBoolean("is_solved"),
-                        user);
-                statisticItemList.add(statisticItem);*/
-            }
-        } catch (SQLException e) {
-            log.error(e);
-            throw new StatisticItemDAOException();
-        }
-        connectionPool.closeConnection(connection);
+        Session session = factory.openSession();
+        Query query = session.createQuery(STATISTICITEM_GET_ALL);
+        statisticItemList = query.list();
+        session.close();
         return statisticItemList;
     }
 
-
-    public  List<StatisticItem> getAllByPuzzle(Puzzle puzzle) throws StatisticItemDAO.StatisticItemDAOException {
+    public List<StatisticItem> getAllByPuzzle(Puzzle puzzle){
         List<StatisticItem> statisticItemList = new ArrayList<>();
-        Connection connection = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(STATISTICITEM_GET_BY_PUZZLE);
-            preparedStatement.setInt(1, puzzle.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                //use JOIN here
-                /*User user = UserDAO.getByID(resultSet.getInt("id_user"));
-                StatisticItem statisticItem = new StatisticItem(
-                        resultSet.getInt("id"),
-                        puzzle,
-                        resultSet.getShort("attempts_count"),
-                        resultSet.getLong("elasped_time"),
-                        resultSet.getBoolean("is_solved"),
-                        user);
-                statisticItemList.add(statisticItem);*/
-            }
-        } catch (SQLException e) {
-            log.error(e);
-            throw new StatisticItemDAOException();
-        }
-        connectionPool.closeConnection(connection);
+        Session session = factory.openSession();
+        Query query = session.createQuery(STATISTICITEM_GET_BY_PUZZLE).setInteger("id_puzzle", puzzle.getId());
+        statisticItemList = query.list();
+        session.close();
         return statisticItemList;
     }
 
-    public  List<StatisticItem> getAllByUser(User user) throws StatisticItemDAO.StatisticItemDAOException {
+    public List<StatisticItem> getAllByPuzzle(User user){
         List<StatisticItem> statisticItemList = new ArrayList<>();
-        Connection connection = connectionPool.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "select si.id, si.id_puzzle, si.elasped_time, si.attempts_count, si.is_solved" +
-                            " from statistic_item si " +
-                             " where si.id_user  = ?");
-            preparedStatement.setInt(1, user.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            //JOIN
-            while (resultSet.next()) {
-               /* Puzzle puzzle = PuzzleDAO.getByID(resultSet.getInt("id_puzzle"));
-                StatisticItem statisticItem = new StatisticItem(
-                        resultSet.getInt("id"),
-                        puzzle,
-                        resultSet.getShort("attempts_count"),
-                        resultSet.getLong("elasped_time"),
-                        resultSet.getBoolean("is_solved"),
-                        user);
-                statisticItemList.add(statisticItem);*/
-            }
-        } catch (SQLException e) {
-            log.error(e);
-            throw new StatisticItemDAOException();
-        }
-        connectionPool.closeConnection(connection);
+        Session session = factory.openSession();
+        Query query = session.createQuery(STATISTICITEM_GET_BY_USER).setInteger("id_user", user.getId());
+        statisticItemList = query.list();
+        session.close();
         return statisticItemList;
     }
-
-
 }
