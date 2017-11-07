@@ -2,6 +2,13 @@ package pojo;
 
 import classesFromXSD.ObjectFactory;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_statistic")
 public class StatisticItem {
     private int id;
     private Puzzle puzzle;
@@ -19,7 +26,8 @@ public class StatisticItem {
         this.isSolved = isSolved;
         this.user = user;
     }
-
+    @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }

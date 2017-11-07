@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/puzzles</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <mapping class="db.entity.TblAnswerEntity"/>
+        <mapping class="db.entity.TblDiflevelEntity"/>
+        <mapping class="db.entity.TblMenuEntity"/>
+        <mapping class="db.entity.TblPuzzleEntity"/>
+        <mapping class="db.entity.TblRoleEntity"/>
+        <mapping class="db.entity.TblStatisticEntity"/>
+        <mapping class="db.entity.TblUserEntity"/>
+        <mapping class="db.entity.UserRole"/>
+        <!-- <property name="connection.username"/> -->
+        <!-- <property name="connection.password"/> -->
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

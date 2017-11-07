@@ -14,7 +14,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (login == null || password == null){
             return false;
         }
-        return userDAO.createUser(new User(-1,
+        return userDAO.insert(new User(-1,
                                             firstName,
                                             lastName,
                                             login,

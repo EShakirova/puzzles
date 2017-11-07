@@ -4,13 +4,10 @@ import db.dao.PuzzleDAO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pojo.Puzzle;
-import pojo.PuzzleWithStatistic;
+import dto.PuzzleDTO;
 import servlets.LoginServlet;
 
 import java.util.ArrayList;
@@ -27,12 +24,28 @@ public class PuzzlesController {
         this.puzzleDAO = puzzleDAO;
     }
 
-    @RequestMapping(value = "puzzles", method = RequestMethod.GET)
+    @RequestMapping(value = "puzzlesForAdmin", method = RequestMethod.GET)
     public ModelAndView getPuzzlesList(){
-        List<PuzzleWithStatistic> puzzleList = new ArrayList<>();
-        ModelAndView modelAndView = new ModelAndView("puzzles");
+        List<PuzzleDTO> puzzleList = new ArrayList<>();
+        ModelAndView modelAndView = new ModelAndView("puzzlesForAdmin");
         try {
             puzzleList.addAll(puzzleDAO.getAllwithStat());
+            modelAndView.addObject("puzzles", puzzleList);
+        } catch (PuzzleDAO.PuzzleDAOException e) {
+            modelAndView.setViewName("error");
+            modelAndView.addObject("message", "Puzzle list is empty");
+            log.info(e);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "puzzlesForUser", method = RequestMethod.GET)
+    public ModelAndView getPuzzlesListWithoutStatistic(/*@RequestParam("userID") Integer userID*/){
+        List<PuzzleDTO> puzzleList = new ArrayList<>();
+        ModelAndView modelAndView = new ModelAndView("puzzlesForUser");
+        try {
+            int userID=1;
+            puzzleList.addAll(puzzleDAO.getAllWithStatByUser(userID));
             modelAndView.addObject("puzzles", puzzleList);
         } catch (PuzzleDAO.PuzzleDAOException e) {
             modelAndView.setViewName("error");

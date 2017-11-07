@@ -1,14 +1,13 @@
 package db.dao;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pojo.Menu;
-import services.backupDB.DBConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +19,19 @@ public class MenuDAO {
     public static class MenuDAOException extends Exception {
     }
 
-    public DBConnectionPool connectionPool = DBConnectionPool.getInstance();
+    private static final Logger log = Logger.getLogger(MenuDAO.class);
+    @Autowired
+    private SessionFactory factory;
 
-    private static final Logger log = Logger.getLogger(PuzzleDAO.class);
+    public List<Menu> getAllByUser(Boolean isAdmin) {
+        List<Menu> menuList = new ArrayList<>();
+        Session session = factory.openSession();
+        Query query = session.createQuery(MENU_GET_ALL_BY_USER).setBoolean("is_admin", isAdmin);
+        menuList = query.list();
+        return menuList;
+    }
 
-    public List<Menu> getAllByUser(Boolean isAdmin) throws MenuDAOException {
+/*    public List<Menu> getAllByUser(Boolean isAdmin) throws MenuDAOException {
         log.info("Start MENU_GET_ALL_BY_USER ");
         List<Menu> menuList = new ArrayList<>();
         Connection connection = null;
@@ -47,5 +54,5 @@ public class MenuDAO {
         }
         return menuList;
     }
-
+*/
 }

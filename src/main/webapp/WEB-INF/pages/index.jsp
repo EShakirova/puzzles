@@ -60,7 +60,7 @@
 
 <table style="margin: 0 auto;">
 
-    <form id="myForm" method="post" action="/puzzles/login" onsubmit="return validate()">
+    <form id="myForm" method="post" action="login" onsubmit="return validate()">
         <tr><td></td>
             <td>
             </td>

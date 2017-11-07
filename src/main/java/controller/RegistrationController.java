@@ -60,7 +60,7 @@ public class RegistrationController {
         ModelAndView modelAndView = new ModelAndView("registration");
         User user = null;
         try {
-            user = userDAO.getByID(userID);
+            user = userDAO.getById(userID);
             modelAndView.addObject("user", user);
             modelAndView.setViewName("registration");
         } catch (UserDAO.UserDAOException e) {
@@ -78,7 +78,7 @@ public class RegistrationController {
                                     @RequestParam("email") String email,
                                     @RequestParam("firstName") String firstName,
                                     @RequestParam("lastName") String lastName,
-                                    @RequestParam("isAdmin") Boolean isAdmin){
+                                    @RequestParam(value = "isAdmin", required = false, defaultValue = "false") Boolean isAdmin){
         ModelAndView modelAndView = new ModelAndView("registration");
 
         User user = new User(id, firstName, lastName, login, email, password, isAdmin);

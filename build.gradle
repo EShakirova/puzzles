@@ -20,4 +20,8 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.3.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.3.RELEASE'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.12.RELEASE'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '4.2.12.Final'
+    compile group: 'javassist', name: 'javassist', version: '3.12.1.GA'
+    compile group: 'org.springframework', name: 'spring-orm', version: '4.3.12.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.8.RELEASE'
 }

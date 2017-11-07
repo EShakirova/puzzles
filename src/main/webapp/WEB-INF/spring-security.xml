@@ -7,10 +7,10 @@
  http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
     <http auto-config="true">
-        <form-login login-page="/login.jsp" username-parameter="login" password-parameter="password" default-target-url="/menu"/>
-        <intercept-url pattern="/puzzles" access="hasRole('ADMIN')"/>
-        <intercept-url pattern="/statistics" access="hasRole('USER')"/>
-
+        <form-login login-page="/WEB-INF/pages/index.jsp" username-parameter="login" password-parameter="password" default-target-url="/menu"/>
+        <intercept-url pattern="/auth" access="permitAll()"/>
+        <intercept-url pattern="/puzzles" access="hasRole('admin')"/>
+        <intercept-url pattern="/statistic" access="hasRole('user')"/>
         <csrf disabled="true"/>
     </http>
     <beans:bean id = "datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -20,15 +20,18 @@
         <beans:property name="password" value=""/>
     </beans:bean>
 
-    <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="datasource"
-                               users-by-username-query="select u.user_name, u.password, TRUE FROM user_table u where user_name = ?"
-                               authorities-by-username-query="SELECT us.user_name, ro.role_name from user_table us
-                                                                                                  join user_role ur on ur.id_user = us.id
-                                                                                                  join role_table ro on ro.id = ur.id_role
-                                                                                                  WHERE us.user_name = ?"/>
+    <beans:bean id="userService" class="db.dao.UserDetailServiceImpl"/>
 
-        </authentication-provider>
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService"></authentication-provider>
+        <!--<authentication-provider>
+            <jdbc-user-service data-source-ref="datasource"
+                               users-by-username-query="select u.login, u.password, TRUE FROM tbl_user u where u.login = ?"
+                               authorities-by-username-query="SELECT us.login, ro.role_name from tbl_user us
+                                                                                                  join tbl_user_role ur on ur.id_user = us.id
+                                                                                                  join tbl_role ro on ro.id = ur.id_role
+                                                                                                  WHERE us.login = ?"/>
+
+        </authentication-provider>-->
     </authentication-manager>
 </beans:beans>

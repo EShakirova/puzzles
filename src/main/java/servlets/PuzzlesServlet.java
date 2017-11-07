@@ -26,7 +26,7 @@ public class PuzzlesServlet extends HttpServlet{
         try {
             User user = (User)req.getSession().getAttribute("user");
             if (!user.isAdmin()) {
-                puzzleList.addAll(puzzleDAO.getAllWithStatByUser(user));
+                puzzleList.addAll(puzzleDAO.getAllWithStatByUser(user.getId()));
             }
             else
             {
@@ -37,7 +37,7 @@ public class PuzzlesServlet extends HttpServlet{
             //e.printStackTrace();
             log.error("Что-то сломалось ", e);
         }
-        req.getRequestDispatcher("/puzzles.jsp").forward(req, resp);
+        req.getRequestDispatcher("/puzzlesForAdmin.jsp").forward(req, resp);
 
     }
 }
