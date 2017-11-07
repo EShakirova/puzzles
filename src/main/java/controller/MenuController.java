@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pojo.Menu;
 import pojo.User;
+import services.AuthorizationService;
 import servlets.LoginServlet;
 
 import java.util.ArrayList;
@@ -20,6 +21,12 @@ public class MenuController {
     private static final Logger log = Logger.getLogger(LoginServlet.class);
 
     private MenuDAO menuDAO;
+    private AuthorizationService as;
+
+    @Autowired
+    public void setAs(AuthorizationService as) {
+        this.as = as;
+    }
 
     @Autowired
     public void setMenuDAO(MenuDAO menuDAO) {
@@ -31,7 +38,7 @@ public class MenuController {
         List<Menu> menuList = new ArrayList<>();
         ModelAndView modelAndView = new ModelAndView("menu");
         try {
-            menuList.addAll(menuDAO.getAllByUser(/*isAdmin*/true));
+            menuList.addAll(menuDAO.getAllByUser(/*isAdmin*/ as.getIsFullAccsessFromSecurityContext()));
             modelAndView.addObject("menu", menuList);
         } catch (MenuDAO.MenuDAOException e) {
             log.info(e);

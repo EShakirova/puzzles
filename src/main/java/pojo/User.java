@@ -2,6 +2,13 @@ package pojo;
 
 import classesFromXSD.ObjectFactory;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_user")
 public class User {
     private int id;
     private String firstName;
@@ -11,7 +18,7 @@ public class User {
     private String password;
     private boolean isAdmin;
 
-    public User(int id, String firstName, String lastName, String login, 
+    public User(int id, String firstName, String lastName, String login,
                     String emailaddress, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,7 +28,7 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String firstName, String lastName, String login, 
+    public User(int id, String firstName, String lastName, String login,
                         String emailaddress, String password, boolean isAdmin) {
         this.id = id;
         this.firstName = firstName;
@@ -31,7 +38,8 @@ public class User {
         this.password = password;
         this.isAdmin = isAdmin;
     }
-
+    @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }

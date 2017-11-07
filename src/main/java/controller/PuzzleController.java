@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.net.httpserver.HttpsParameters;
 import db.dao.DifficultyLevelDAO;
 import db.dao.PuzzleDAO;
 import org.apache.log4j.Logger;
@@ -59,13 +60,14 @@ public class PuzzleController {
     public ModelAndView editPuzzle(@RequestParam("puzzleID") Integer puzzleID,
                                    @RequestParam("behavior") Boolean behavior,
                                    @RequestParam("dlevel") Integer dlevel,
-                                   @RequestParam("question") String question) {
+                                   @RequestParam("question") String question
+                                   ) {
         ModelAndView modelAndView = new ModelAndView("puzzle");
         DifficultyLevel difficultyLevel = null;
         Puzzle puzzle = null;
         try {
             difficultyLevel = difficultyLevelDAO.getByID(dlevel);
-            puzzle = new Puzzle(puzzleID, behavior, question, "", difficultyLevel);
+            puzzle = new Puzzle(puzzleID, behavior, question, difficultyLevel, null);
             modelAndView.setViewName("puzzle");
             modelAndView.addObject("puzzle", puzzle);
         } catch (DifficultyLevelDAO.DifficultyLevelDAOException e) {

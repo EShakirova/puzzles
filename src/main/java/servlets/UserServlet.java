@@ -17,13 +17,13 @@ public class UserServlet extends HttpServlet {
         log.info("Start UsersServlet doGet");
         int userID = Integer.valueOf(req.getParameter("userID"));
 
-        UserDAO userDAO = new UserDAO();
+       /* UserDAO userDAO = new UserDAO();
         try {
             userDAO.getByID(userID);
             req.setAttribute("user", userDAO);
         } catch (UserDAO.UserDAOException e) {
             log.info(e);
-        }
+        }*/
         req.getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 }

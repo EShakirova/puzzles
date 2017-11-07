@@ -123,10 +123,7 @@
                 <td align="right">Роль</td>
                 <td>
                     <input type="hidden" name="id" value="${user.id}"/>
-                    <input type="radio" name="isAdmin" value="true"
-                        <c:if test="${user.isAdmin()}">checked="checked"</c:if>/>Администратор
-                    <input type="radio" name="isAdmin" value="false"
-                        <c:if test="${!user.isAdmin()}">checked="checked"</c:if>/>Пользователь
+                    <input type="checkbox" name="isAdmin" <c:if test="${user.isAdmin()}">checked</c:if> />Администратор
                 </td>
             </c:if>
         </tr>

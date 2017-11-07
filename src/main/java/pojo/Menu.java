@@ -1,7 +1,10 @@
 package pojo;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "tbl_menu")
 public class Menu {
     private String itemName;
     private String ahref;

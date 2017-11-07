@@ -27,7 +27,7 @@ public class UserController {
     public ModelAndView getUser(@RequestParam ("userID") Integer userID){
         ModelAndView modelAndView = new ModelAndView("user");
         try {
-            User user = userDAO.getByID(userID);
+            User user = userDAO.getById(userID);
             modelAndView.addObject("user", user);
         } catch (UserDAO.UserDAOException e) {
             log.info(e);

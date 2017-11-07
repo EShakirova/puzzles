@@ -2,6 +2,8 @@ package controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,14 +33,15 @@ public class LoginController {
     }
 
     @RequestMapping(value = "auth", method = RequestMethod.POST)
-    @ModelAttribute("isAdmin")
+//    @ModelAttribute("isAdmin")
     public ModelAndView login (@RequestParam String login, @RequestParam String password){
         log.info("Start LoginController login");
 
-        User user = as.auth(login, password);
+   //     User user = as.auth(login, password);
         ModelAndView modelAndView = new ModelAndView();
-        if (user!=null){
-            modelAndView.addObject("isAdmin", user.isAdmin());
+     //   if (user!=null){
+   //         modelAndView.addObject("isAdmin", user.isAdmin());
+        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
             modelAndView.setViewName("redirect:/menu");
         }
         else{

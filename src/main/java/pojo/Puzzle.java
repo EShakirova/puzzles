@@ -4,29 +4,30 @@ import classesFromXSD.ObjectFactory;
 import db.dao.StatisticItemDAO;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Component
+@Entity
+@Table(name ="tbl_puzzle")
 public class Puzzle {
     private int id;
     private boolean behavior;
     private String question;
-    private String answer;
     private DifficultyLevel difficultyLevel;
-    private final Set<StatisticItem> statisticItemSet;
+    private Set<Answer> answerSet;
 
-    public Puzzle(int id, boolean behavior, String question, String answer,
-                  DifficultyLevel difficultyLevel) {
+    public Puzzle(int id, boolean behavior, String question, DifficultyLevel difficultyLevel, Set<Answer> answerSet) {
         this.id = id;
         this.behavior = behavior;
         this.question = question;
-        this.answer = answer;
         this.difficultyLevel = difficultyLevel;
-        this.statisticItemSet = new HashSet<>();
+        this.answerSet = answerSet;
     }
 
+@Id
+@Column(name = "id")
     public int getId() {
         return id;
     }
@@ -51,14 +52,8 @@ public class Puzzle {
         this.question = question;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     public DifficultyLevel getDifficultyLevel() {
         return difficultyLevel;
     }
@@ -67,10 +62,14 @@ public class Puzzle {
         this.difficultyLevel = difficultyLevel;
     }
 
-    public Set<StatisticItem> getStatisticItemSet() {
-        return statisticItemSet;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id_puzzle")
+    public Set<Answer> getAnswerSet() {
+        return answerSet;
     }
 
+    public void setAnswerSet(Set<Answer> answerSet) {
+        this.answerSet = answerSet;
+    }
 
     public static classesFromXSD.Puzzle getBean(Puzzle puzzle){
         classesFromXSD.Puzzle puzzleBean = null;
@@ -79,7 +78,7 @@ public class Puzzle {
             puzzleBean = objectFactory.createPuzzle();
             puzzleBean.setId(puzzle.getId());
             puzzleBean.setBehavior(puzzle.isBehavior());
-            puzzleBean.setAnswer(puzzle.getAnswer());
+            puzzleBean.setAnswer(null);
             puzzleBean.setQuestion(puzzle.getQuestion());
             puzzleBean.setDifficultyLevel(/*puzzle.getDifficultyLevel()*/(byte)1);
 
@@ -102,16 +101,15 @@ public class Puzzle {
                 puzzle.getId(),
                 puzzle.isBehavior(),
                 puzzle.getQuestion(),
-                puzzle.getAnswer(),
-                   null/*puzzle.getDifficultyLevel()*/
+               null, null
                 );
             Set<classesFromXSD.StatisticItem> statisticItemSet = new HashSet<>();
             statisticItemSet.addAll((Collection)puzzle.getPuzzleStatistic());
-            //Set<StatisticItem> statisticItemPOJOSet = new HashSet<>();
+            Set<StatisticItem> statisticItemPOJOSet = new HashSet<>();
             for (classesFromXSD.StatisticItem si : statisticItemSet){
                 StatisticItem statisticItem = StatisticItem.getPOJO(si, puzzlePOJO);
-                //statisticItemPOJOSet.add(statisticItem);
-                puzzlePOJO.statisticItemSet.add(statisticItem);
+                statisticItemPOJOSet.add(statisticItem);
+                //puzzlePOJO.statisticItemSet.add(statisticItem);
             }
             //puzzlePOJO.statisticItemSet.add(statisticItem)
             //puzzlePOJO.setStatisticItemSet(statisticItemPOJOSet);

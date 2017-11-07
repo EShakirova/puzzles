@@ -32,6 +32,7 @@
         <param-value>
             /WEB-INF/dispatcher-servlet.xml
             /WEB-INF/spring-security.xml
+            /WEB-INF/database.xml
         </param-value>
     </context-param>
 </web-app>
