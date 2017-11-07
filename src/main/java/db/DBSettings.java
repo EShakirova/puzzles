@@ -61,6 +61,7 @@ public class DBSettings {
                                                         "id_puzzle = ? , elasped_time =  ? , attempts_count = ?, is_solved = ? , id_user = where id = ?";
     public static final String STATISTICITEM_DELETE = "delete from statistic_item where id  = ? ";
     public static final String STATISTICITEM_GET_BY_PUZZLE = "select * from statistic_item where id_puzzle = ?";
+    public static final String STATISTICITEM_GET_BY_USER = "select * from statistic_item where id_user = ?";
 
     public static final String MENU_GET_ALL_BY_USER = "select * from tbl_menu where is_admin = ?";
 

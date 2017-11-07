@@ -48,7 +48,7 @@ public class PuzzleDAO /*implements ICommonDAO<Puzzle> */{
         session.close();
     }
 
-    public Puzzle getPuzzleById(int id) throws PuzzleDAOException {
+    public Puzzle getById(int id) throws PuzzleDAOException {
         Session session = factory.openSession();
         Puzzle puzzle = (Puzzle) session.get(Puzzle.class, id);
         session.close();
@@ -76,7 +76,7 @@ public class PuzzleDAO /*implements ICommonDAO<Puzzle> */{
         return puzzleDTOList;
     }
 
-    public List<PuzzleDTO> getAllwithStat(){
+    public List<PuzzleDTO> getAllWithStat(){
         List<PuzzleDTO> puzzleDTOList = new ArrayList<>();
         Session session = factory.openSession();
         Query query = session.createQuery(PUZZLE_GET_ALL_WITH_STAT);
@@ -84,139 +84,4 @@ public class PuzzleDAO /*implements ICommonDAO<Puzzle> */{
         session.close();
         return puzzleDTOList;
     }
-
-    //пазлы со статистикой для списка пазлов по пользователю(роль "пользователь")
- /*   public List<PuzzleDTO> getAllWithStatByUser(Integer userID) throws PuzzleDAOException {
-        log.info("Start PZZLE_GET_ALL_WITH_STAT_BY_USER ");
-        List<PuzzleDTO> puzzleList = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = connectionPool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(PZZLE_GET_ALL_WITH_STAT_BY_USER);
-            statement.setInt(1, userID);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                PuzzleDTO puzzle = new PuzzleDTO(
-                        resultSet.getInt("pid"),
-                        resultSet.getBoolean("behavior"),
-                        resultSet.getString("question"),
-                        null,
-                        null,
-                        resultSet.getShort("attempts_count"),
-                        resultSet.getLong("elapsed_time"),
-                        resultSet.getBoolean("is_solved"));
-                DifficultyLevel difficultyLevel = new DifficultyLevel(
-                        resultSet.getInt("did"),
-                        resultSet.getString("dname"));
-                puzzle.setDifficultyLevel(difficultyLevel);
-                puzzleList.add(puzzle);
-            }
-        } catch (SQLException e) {
-            log.info(e);
-        }
-        finally {
-            connectionPool.closeConnection(connection);
-        }
-        return puzzleList;
-    }*/
-//список пазлов со статистикой ответов по пользователям для роли "Админ"
-     /*   public List<PuzzleDTO> getAllwithStat() throws PuzzleDAOException {
-        log.info("Start PUZZLE_GET_ALL ");
-        List<PuzzleDTO> puzzleList = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = connectionPool.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(PUZZLE_GET_ALL_WITH_STAT);
-            while (resultSet.next()) {
-                PuzzleDTO puzzle = new PuzzleDTO(
-                        resultSet.getInt("id"),
-                        resultSet.getBoolean("behavior"),
-                        resultSet.getString("question"),
-                        null,
-                        null,
-                        resultSet.getInt("cntStatistics"));
-                DifficultyLevel difficultyLevel = new DifficultyLevel(
-                        resultSet.getInt("did"),
-                        resultSet.getString("dname"));
-                puzzle.setDifficultyLevel(difficultyLevel);
-                puzzleList.add(puzzle);
-            }
-        } catch (SQLException e) {
-            log.error(e);
-            throw new PuzzleDAOException();
-        } finally {
-            connectionPool.closeConnection(connection);
-        }
-        return puzzleList;
-    }*/
-/*
-    public List<Puzzle> getAll() throws PuzzleDAOException {
-        log.info("Start PUZZLE_GET_ALL ");
-        List<Puzzle> puzzleList = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = connectionPool.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(PUZZLE_GET_ALL);
-
-            while (resultSet.next()) {
-                Puzzle puzzle = new Puzzle(
-                        resultSet.getInt("pid"),
-                        resultSet.getBoolean("behavior"),
-                        resultSet.getString("question"),
-                        null,
-                        null);
-                puzzleList.add(puzzle);
-            }
-        } catch (SQLException e) {
-            log.error(e);
-            throw new PuzzleDAOException();
-        } finally {
-            connectionPool.closeConnection(connection);
-        }
-        return puzzleList;
-    }*/
-/*
-    public Puzzle getByID(int in_id) throws PuzzleDAOException {
-        Puzzle puzzle = null;
-        Connection connection = null;
-        try {
-            connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(PUZZLE_GET_BY_ID);
-            preparedStatement.setInt(1, in_id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            puzzle = new Puzzle(resultSet.getInt("id"),
-                                resultSet.getBoolean("behavior"),
-                                resultSet.getString("question"),
-                                null,
-                                null);
-            DifficultyLevel difficultyLevel = new DifficultyLevel(
-                    resultSet.getInt("did"),
-                    resultSet.getString("dname"));
-            puzzle.setDifficultyLevel(difficultyLevel);
-            Set<Answer> answers = new HashSet<>();
-            Answer answer = new Answer(
-                    resultSet.getInt("aid"),
-                    resultSet.getString("answer"),
-                    resultSet.getBoolean("is_correct"));
-            answers.add(answer);
-            while (resultSet.next()){
-                        answer = new Answer(
-                        resultSet.getInt("aid"),
-                        resultSet.getString("answer"),
-                        resultSet.getBoolean("is_correct"));
-                answers.add(answer);
-            }
-            puzzle.setAnswerSet(answers);
-        } catch (SQLException e) {
-            log.error(e);
-            throw new PuzzleDAOException();
-        }
-        finally {
-            connectionPool.closeConnection(connection);
-        }
-        return puzzle;
-    }*/
 }

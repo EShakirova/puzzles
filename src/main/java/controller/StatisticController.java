@@ -38,7 +38,7 @@ public class StatisticController {
     private ModelAndView getPuzzleForAnswer(@RequestParam("puzzleID") Integer puzzleID) {
         ModelAndView modelAndView = new ModelAndView("statistic");
         try {
-            Puzzle puzzle = puzzleDAO.getByID(puzzleID);
+            Puzzle puzzle = puzzleDAO.getById(puzzleID);
             modelAndView.addObject("puzzle", puzzle);
         } catch (PuzzleDAO.PuzzleDAOException e) {
             modelAndView.setViewName("error");
@@ -62,7 +62,8 @@ public class StatisticController {
                 attemptsCount,
                 elapsedTime,
                 isSolved);
-        statisticItemDAO.insert(statisticItemDTO);
+      //???
+      //  statisticItemDAO.insert(statisticItemDTO);
 
         return modelAndView;
     }
