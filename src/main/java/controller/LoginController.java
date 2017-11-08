@@ -24,28 +24,19 @@ public class LoginController {
     }
 
     @RequestMapping(value = {"auth", "/"}, method = RequestMethod.GET)
-    public ModelAndView login(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        return modelAndView;
+    public String login(){
+        return "index";
     }
 
     @RequestMapping(value = "auth", method = RequestMethod.POST)
-//    @ModelAttribute("isAdmin")
-    public ModelAndView login (@RequestParam String login, @RequestParam String password){
+    public String login (@RequestParam String login, @RequestParam String password){
         log.info("Start LoginController login");
-
-   //     User user = as.auth(login, password);
-        ModelAndView modelAndView = new ModelAndView();
-     //   if (user!=null){
-   //         modelAndView.addObject("isAdmin", user.isAdmin());
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
-            modelAndView.setViewName("redirect:/menu");
+            return "redirect:/menu";
         }
         else{
-            modelAndView.setViewName("redirect:/auth");
+            return "redirect:/auth";
         }
-        return modelAndView;
     }
 
 }
