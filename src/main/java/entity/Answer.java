@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_answer", schema = "public", catalog = "puzzles")
-public class TblAnswer {
+public class Answer {
     private int id;
     private String answer;
     private Boolean isCorrect;
@@ -45,11 +45,11 @@ public class TblAnswer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TblAnswer tblAnswer = (TblAnswer) o;
+        Answer answer = (Answer) o;
 
-        if (id != tblAnswer.id) return false;
-        if (answer != null ? !answer.equals(tblAnswer.answer) : tblAnswer.answer != null) return false;
-        if (isCorrect != null ? !isCorrect.equals(tblAnswer.isCorrect) : tblAnswer.isCorrect != null) return false;
+        if (id != answer.id) return false;
+        if (this.answer != null ? !this.answer.equals(answer.answer) : answer.answer != null) return false;
+        if (isCorrect != null ? !isCorrect.equals(answer.isCorrect) : answer.isCorrect != null) return false;
 
         return true;
     }

@@ -1,10 +1,13 @@
 package db.dao;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 public class UserDetailsWithId extends User implements UserDetails {
 
@@ -15,6 +18,21 @@ public class UserDetailsWithId extends User implements UserDetails {
                              String password,
                              Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+        this.id = id;
+    }
+
+    public UserDetailsWithId(entity.User user) {
+        super(user.getLogin(),
+                user.getPassword(),
+                true,
+                true,
+                true,
+                true,
+                Collections.singleton(
+                        user.isAdmin()
+                                ?new SimpleGrantedAuthority("ROLE_admin")
+                                :new SimpleGrantedAuthority("ROLE_user")));
+        this.id = user.getId();
     }
 
     public UserDetailsWithId(int id,

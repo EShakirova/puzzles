@@ -1,8 +1,8 @@
 package servlets;
 
 import db.dao.UserDAO;
+import entity.User;
 import org.apache.log4j.Logger;
-import pojo.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,13 +21,8 @@ public class UsersServlet extends HttpServlet {
 
         List<User> userList = new ArrayList<>();
         UserDAO user = new UserDAO();
-        try {
-            userList.addAll(user.getAll());
-            req.setAttribute("users", userList);
-
-        } catch (UserDAO.UserDAOException e) {
-            log.info(e);
-        }
+        userList.addAll(user.getAll());
+        req.setAttribute("users", userList);
         req.getRequestDispatcher("users.jsp").forward(req, resp);
     }
 }

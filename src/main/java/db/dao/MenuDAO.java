@@ -1,12 +1,12 @@
 package db.dao;
 
+import entity.Menu;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pojo.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class MenuDAO {
     public List<Menu> getAllByUser(Boolean isAdmin) {
         List<Menu> menuList = new ArrayList<>();
         Session session = factory.openSession();
-        Query query = session.createQuery(MENU_GET_ALL_BY_USER).setBoolean("is_admin", isAdmin);
+        Query query = session.createQuery("from Menu where admin = :isAdmin").setBoolean("isAdmin", isAdmin);
         menuList = query.list();
         return menuList;
     }

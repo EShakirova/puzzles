@@ -15,6 +15,19 @@ public class User {
     private boolean isAdmin;
     private Collection<StatisticItem> statisticItems;
 
+    public User() {
+    }
+
+    public User(int id, String firstName, String lastName, String login, String email, String password, boolean isAdmin) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.email = email;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {

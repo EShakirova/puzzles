@@ -5,7 +5,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "tbl_diflevel", schema = "public", catalog = "puzzles")
-public class Difficultylevel {
+public class DifficultyLevel {
     private int id;
     private String name;
     private Collection<Puzzle> puzzles;
@@ -35,7 +35,7 @@ public class Difficultylevel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Difficultylevel that = (Difficultylevel) o;
+        DifficultyLevel that = (DifficultyLevel) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;

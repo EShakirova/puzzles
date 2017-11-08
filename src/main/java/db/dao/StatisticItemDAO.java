@@ -1,16 +1,15 @@
 package db.dao;
 
+import entity.Puzzle;
+import entity.StatisticItem;
+import entity.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pojo.Puzzle;
-import pojo.StatisticItem;
-import pojo.User;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 

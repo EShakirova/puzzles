@@ -29,9 +29,9 @@ public class PuzzlesController {
         List<PuzzleDTO> puzzleList = new ArrayList<>();
         ModelAndView modelAndView = new ModelAndView("puzzlesForAdmin");
         try {
-            puzzleList.addAll(puzzleDAO.getAllwithStat());
+            puzzleList.addAll(puzzleDAO.getAllWithStat());
             modelAndView.addObject("puzzles", puzzleList);
-        } catch (PuzzleDAO.PuzzleDAOException e) {
+        } catch (/*PuzzleDAO.PuzzleDAOException*/ Exception e) {
             modelAndView.setViewName("error");
             modelAndView.addObject("message", "Puzzle list is empty");
             log.info(e);
@@ -47,7 +47,7 @@ public class PuzzlesController {
             int userID=1;
             puzzleList.addAll(puzzleDAO.getAllWithStatByUser(userID));
             modelAndView.addObject("puzzles", puzzleList);
-        } catch (PuzzleDAO.PuzzleDAOException e) {
+        } catch (/*PuzzleDAO.PuzzleDAOException*/ Exception e) {
             modelAndView.setViewName("error");
             modelAndView.addObject("message", "Puzzle list is empty");
             log.info(e);

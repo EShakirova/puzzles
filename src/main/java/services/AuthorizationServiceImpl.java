@@ -1,13 +1,11 @@
 package services;
 
-import org.springframework.security.core.Authentication;
+import entity.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Component;
 import db.dao.UserDAO;
 import org.apache.log4j.Logger;
-import pojo.User;
 
 @Component(value = "AutorizationService")
 public class AuthorizationServiceImpl implements AuthorizationService {

@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "tbl_menu", schema = "public", catalog = "puzzles")
 public class Menu {
     private int id;
-    private String name;
+    private String itemName;
     private String ahref;
     private Boolean isAdmin;
 
@@ -22,12 +22,12 @@ public class Menu {
 
     @Basic
     @Column(name = "name", nullable = false, length = 100)
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String name) {
+        this.itemName = name;
     }
 
     @Basic
@@ -58,7 +58,7 @@ public class Menu {
         Menu menu = (Menu) o;
 
         if (id != menu.id) return false;
-        if (name != null ? !name.equals(menu.name) : menu.name != null) return false;
+        if (itemName != null ? !itemName.equals(menu.itemName) : menu.itemName != null) return false;
         if (ahref != null ? !ahref.equals(menu.ahref) : menu.ahref != null) return false;
         if (isAdmin != null ? !isAdmin.equals(menu.isAdmin) : menu.isAdmin != null) return false;
 
@@ -68,7 +68,7 @@ public class Menu {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
         result = 31 * result + (ahref != null ? ahref.hashCode() : 0);
         result = 31 * result + (isAdmin != null ? isAdmin.hashCode() : 0);
         return result;

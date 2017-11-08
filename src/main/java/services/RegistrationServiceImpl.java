@@ -2,7 +2,6 @@ package services;
 
 import db.dao.UserDAO;
 import org.springframework.stereotype.Component;
-import pojo.User;
 
 @Component(value = "RegistrationService")
 public class RegistrationServiceImpl implements RegistrationService {
@@ -14,11 +13,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (login == null || password == null){
             return false;
         }
-        return userDAO.insert(new User(-1,
+        return null;
+        /*return userDAO.insert(new User(-1,
                                             firstName,
                                             lastName,
                                             login,
                                             email,
-                                            PasswordEncoder.encode(password)));
+                                            PasswordEncoder.encode(password)));*/
     }
 }

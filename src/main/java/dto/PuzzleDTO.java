@@ -1,9 +1,9 @@
 package dto;
 
+import entity.Answer;
+import entity.DifficultyLevel;
+import entity.Puzzle;
 import org.springframework.stereotype.Component;
-import pojo.Answer;
-import pojo.DifficultyLevel;
-import pojo.Puzzle;
 
 import java.util.Set;
 

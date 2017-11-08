@@ -1,9 +1,9 @@
 package servlets;
 
 import db.dao.PuzzleDAO;
+import entity.Puzzle;
+import entity.User;
 import org.apache.log4j.Logger;
-import pojo.Puzzle;
-import pojo.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,20 +23,13 @@ public class PuzzlesServlet extends HttpServlet{
 
         List<Puzzle> puzzleList = new ArrayList<>();
         PuzzleDAO puzzleDAO = new PuzzleDAO();
-        try {
-            User user = (User)req.getSession().getAttribute("user");
-            if (!user.isAdmin()) {
-                puzzleList.addAll(puzzleDAO.getAllWithStatByUser(user.getId()));
-            }
-            else
-            {
-                puzzleList.addAll(puzzleDAO.getAll());
-            }
-            req.setAttribute("puzzle", puzzleList);
-        } catch (PuzzleDAO.PuzzleDAOException e) {
-            //e.printStackTrace();
-            log.error("Что-то сломалось ", e);
-        }
+        User user = (User)req.getSession().getAttribute("user");
+        /*if (!user.isAdmin()) {
+            puzzleList.addAll(puzzleDAO.getAllWithStatByUser(user.getId()));
+        } else {
+            puzzleList.addAll(puzzleDAO.getAll());
+        }*/
+        req.setAttribute("puzzle", puzzleList);
         req.getRequestDispatcher("/puzzlesForAdmin.jsp").forward(req, resp);
 
     }

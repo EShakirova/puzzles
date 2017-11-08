@@ -1,7 +1,6 @@
 package db.dao;
 
-import db.ConnectionManagerPostgresSQL;
-import db.IConnectionManager;
+import entity.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -9,20 +8,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.jaas.AuthorityGranter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import pojo.User;
 
-import java.sql.*;
 import java.util.*;
 
-import static db.DBSettings.*;
 import static db.DBSettings.USER_GET_ALL;
 
 @Component
-public class UserDAO /*implements IUserDAO, ICommonDAO<User>*/ {
+public class UserDAO {
     public static class UserDAOException extends Exception {
     };
     private static final Logger log = Logger.getLogger(UserDAO.class);
@@ -88,13 +81,10 @@ public class UserDAO /*implements IUserDAO, ICommonDAO<User>*/ {
 //???
     public UserDetailsWithId loadUserByName(String login) throws UserDAOException {
         Session session = factory.openSession();
-        Criteria userDetailsCriteria = session.createCriteria(UserDetailsWithId.class);
-        userDetailsCriteria.add(Restrictions.eq("login", login));
-        UserDetailsWithId userDetailsWithId = (UserDetailsWithId) userDetailsCriteria.uniqueResult();
-        /*
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(userDetailsCriteria.getString("role_name")));
-*/
+        Query query = session.createQuery("from entity.User where login = :login");
+        query.setString("login", login);
+        User user = (User) query.uniqueResult();
+        UserDetailsWithId userDetailsWithId = new UserDetailsWithId(user);
         session.close();
         if (userDetailsWithId == null) {
             throw new UserDAOException();

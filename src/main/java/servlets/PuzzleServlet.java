@@ -1,9 +1,8 @@
 package servlets;
 
 import db.dao.PuzzleDAO;
-import db.dao.StatisticItemDAO;
+import entity.Puzzle;
 import org.apache.log4j.Logger;
-import pojo.Puzzle;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +20,7 @@ public class PuzzleServlet extends HttpServlet {
 
         PuzzleDAO puzzleDAO = new PuzzleDAO();
         try {
-            Puzzle puzzle = puzzleDAO.getByID(puzzleID);
+            Puzzle puzzle = puzzleDAO.getById(puzzleID);
             req.setAttribute("puzzle", puzzle);
         } catch (PuzzleDAO.PuzzleDAOException e) {
             log.info(e);

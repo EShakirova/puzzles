@@ -31,8 +31,8 @@
             <td width="15%" align="center"> <c:out value="${item.lastName}"></c:out> </td>
             <td width="15%" align="center"> <c:out value="${item.login}"></c:out> </td>
             <td width="20%" align="center"> <c:out value="${item.emailaddress}"></c:out> </td>
-            <td width="15%" align="center"> <c:if test="${item.isAdmin()}">Админ</c:if>
-                                            <c:if test="${!item.isAdmin()}">Пользователь</c:if>   </td>
+            <td width="15%" align="center"> <c:if test="${item.admin()}">Админ</c:if>
+                                            <c:if test="${!item.admin()}">Пользователь</c:if>   </td>
 
         <form id="myFormEdit" method="post" action="editUser">
             <input type="hidden" name="userID" value = '<c:out  value="${item.id}"></c:out>'/>

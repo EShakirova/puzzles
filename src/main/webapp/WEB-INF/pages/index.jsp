@@ -54,13 +54,13 @@
             value = false;
         }
 
-        return value;
+        if (value) document.getElementById("myForm").submit();
     }
 </script>
 
 <table style="margin: 0 auto;">
 
-    <form id="myForm" method="post" action="login" onsubmit="return validate()">
+    <form id="myForm" method="post" action="login">
         <tr><td></td>
             <td>
             </td>
@@ -82,7 +82,7 @@
     </form>
     <tr><td></td>
         <td>
-            <a href="/puzzles/registrationForm">Регистрация</a>
+            <a href="${pageContext.request.contextPath}/registrationForm">Регистрация</a>
         </td>
     </tr>
 

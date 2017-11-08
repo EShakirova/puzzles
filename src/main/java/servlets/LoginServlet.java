@@ -1,7 +1,7 @@
 package servlets;
 
+import entity.User;
 import org.apache.log4j.Logger;
-import pojo.User;
 import services.AuthorizationService;
 import services.AuthorizationServiceImpl;
 

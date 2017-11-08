@@ -1,6 +1,6 @@
 package db.dao;
 
-import pojo.User;
+import entity.User;
 
 public interface IUserDAO {
     User getUserByLoginAndPassword(String login, String password) throws UserDAO.UserDAOException;

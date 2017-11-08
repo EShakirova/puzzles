@@ -1,13 +1,12 @@
 package controller;
 
 import db.dao.MenuDAO;
+import entity.Menu;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pojo.Menu;
-import pojo.User;
 import services.AuthorizationService;
 import servlets.LoginServlet;
 
@@ -37,14 +36,8 @@ public class MenuController {
     public ModelAndView showMenu(/*@ModelAttribute("isAdmin") Boolean isAdmin*/){
         List<Menu> menuList = new ArrayList<>();
         ModelAndView modelAndView = new ModelAndView("menu");
-        try {
-            menuList.addAll(menuDAO.getAllByUser(/*isAdmin*/ as.getIsFullAccsessFromSecurityContext()));
-            modelAndView.addObject("menu", menuList);
-        } catch (MenuDAO.MenuDAOException e) {
-            log.info(e);
-            modelAndView.setViewName("error");
-            modelAndView.addObject("message", "Menu is not available");
-        }
+        menuList.addAll(menuDAO.getAllByUser(/*isAdmin*/ as.getIsFullAccsessFromSecurityContext()));
+        modelAndView.addObject("menu", menuList);
         return modelAndView;
     }
 }

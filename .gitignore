@@ -1,0 +1,7 @@
+.gradle/
+.idea/*
+build/
+gradle/wrapper/*
+out/
+puzzles.iml
+/statistic.xml

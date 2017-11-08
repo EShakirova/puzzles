@@ -9,9 +9,20 @@ public class Puzzle {
     private int id;
     private String question;
     private boolean behavior;
-    private Collection<TblAnswer> answers;
-    private Difficultylevel difLevel;
+    private Collection<Answer> answers;
+    private DifficultyLevel difLevel;
     private Collection<StatisticItem> statistics;
+
+    public Puzzle() {
+    }
+
+    public Puzzle(int id, boolean behavior, String question, DifficultyLevel difLevel, Collection<Answer> answers) {
+        this.id = id;
+        this.question = question;
+        this.behavior = behavior;
+        this.answers = answers;
+        this.difLevel = difLevel;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -66,21 +77,21 @@ public class Puzzle {
     }
 
     @OneToMany(mappedBy = "puzzle")
-    public Collection<TblAnswer> getAnswers() {
+    public Collection<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Collection<TblAnswer> answers) {
+    public void setAnswers(Collection<Answer> answers) {
         this.answers = answers;
     }
 
     @ManyToOne
     @JoinColumn(name = "id_diflevel", referencedColumnName = "id", nullable = false)
-    public Difficultylevel getDifLevel() {
+    public DifficultyLevel getDifLevel() {
         return difLevel;
     }
 
-    public void setDifLevel(Difficultylevel difLevel) {
+    public void setDifLevel(DifficultyLevel difLevel) {
         this.difLevel = difLevel;
     }
 

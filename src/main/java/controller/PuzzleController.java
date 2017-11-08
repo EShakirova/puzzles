@@ -1,8 +1,9 @@
 package controller;
 
-import com.sun.net.httpserver.HttpsParameters;
 import db.dao.DifficultyLevelDAO;
 import db.dao.PuzzleDAO;
+import entity.DifficultyLevel;
+import entity.Puzzle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pojo.DifficultyLevel;
-import pojo.Puzzle;
 import servlets.LoginServlet;
 
 import java.util.ArrayList;
